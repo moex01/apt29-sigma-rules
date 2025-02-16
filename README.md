@@ -15,5 +15,9 @@ Contributions to these rules are welcome. When submitting a pull request, please
 - You test your modifications in a controlled environment before submitting them.
 Feel free to open an issue if you have suggestions or encounter any problems.
 
+# References
+- [CISA Report](https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a)
+- [Investigating APT29 Exploiting TeamCity CVE-2024-27198](https://moe-3.gitbook.io/moex0-blog/articles/investigating-apt29-exploiting-teamcity-cve-2024-27198)
+
 ## License
 This repository is licensed under the [Detection Rule License (DRL-1.1)](https://github.com/SigmaHQ/Detection-Rule-License).
