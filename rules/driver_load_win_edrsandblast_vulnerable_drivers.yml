@@ -1,0 +1,30 @@
+title: EDRSandblast Vulnerable Drivers Loaded
+id: c29e5951-5b30-4cc4-a65c-13795bf38492
+status: experimental
+description: |
+  Detects known vulnerable drivers (GDRV.sys, RTCore64.sys, DBUtil_2_3.sys) being loaded by EDRSandblast.
+references:
+  - https://github.com/wavestone-cdt/EDRSandblast#edr-drivers-and-processes-detection
+author: Momen Mahmoud
+date: 2025-02-10
+tags:
+  - attack.t1562.001
+  - attack.impair-defenses
+logsource:
+  category: driver_load
+  product: windows
+detection:
+  selection_driver:
+    ImageLoaded|endswith:
+      - '\GDRV.sys'
+      - '\RTCore64.sys'
+      - '\DBUtil_2_3.sys'
+  selection_hash:
+    Hashes|contains:
+      - '31f4cfb4c71da44120752721103a16512444c13c2ac2d857a7e6f13cb679b427'
+      - '01aa278b07b58dc46c84bd0b1b5c8e9ee4e62ea0bf7a695862444af32e87f1fd'
+      - '0296e2ce999e67c76352613a718e11516fe1b0efc3ffdb8918fc999dd76a73a5'
+  condition: selection_driver or selection_hash
+falsepositives:
+  - Legitimate driver updates (but rare).
+level: high

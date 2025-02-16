@@ -1,0 +1,37 @@
+title: DLL Names Used by APT29 for GraphicalProton Backdoor
+id: dea6764c-05ab-46e9-b9b6-c7c6c62d01b6
+status: experimental
+description: |
+  Hunts for known DLL names associated with the GraphicalProton backdoor used by APT29.
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+author: CISA, Momen Mahmoud (Sigma Formatting)
+date: 2025-02-14
+tags:
+  - attack.defense-evasion
+  - attack.t1574.002
+logsource:
+  category: image_load
+  product: windows
+detection:
+  selection:
+    ImageLoaded|endswith:
+      - 'AclNumsInvertHost.dll'
+      - 'ModeBitmapNumericAnimate.dll'
+      - 'UnregisterAncestorAppendAuto.dll'
+      - 'DeregisterSeekUsers.dll'
+      - 'ScrollbarHandleGet.dll'
+      - 'PerformanceCaptionApi.dll'
+      - 'WowIcmpRemoveReg.dll'
+      - 'BlendMonitorStringBuild.dll'
+      - 'HandleFrequencyAll.dll'
+      - 'HardSwapColor.dll'
+      - 'LengthInMemoryActivate.dll'
+      - 'ParametersNamesPopup.dll'
+      - 'ModeFolderSignMove.dll'
+      - 'ChildPaletteConnected.dll'
+      - 'AddressResourcesSpec.dll'
+  condition: selection
+falsepositives:
+  - No known legitimate use of these DLL names
+level: high

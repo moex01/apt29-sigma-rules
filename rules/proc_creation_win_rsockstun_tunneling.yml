@@ -1,0 +1,25 @@
+title: Suspicious Rsockstun Tunneling Activity
+id: 68894260-9d5c-43ce-802d-f04e447fcfab
+status: experimental
+description: |
+  Detects processes whose command line includes both "pass" and "connect" arguments.
+  This behavior may be used by adversaries (such as APT29) to tunnel traffic through a SOCKS proxy (e.g., Rsockstun).
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+author: CISA, Momen Mahmoud (Sigma formatting)
+date: 2025-02-10
+tag:
+  - attack.command-and-control
+  - attack.t1572
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    CommandLine|contains|all:
+      - '-pass'
+      - '-connect'
+  condition: selection
+falsepositives:
+  - Legitimate use of Rsockstun or other software using similar command line arguments.
+level: medium

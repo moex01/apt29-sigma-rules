@@ -1,0 +1,38 @@
+title: Remote DLL Execution via WMIC and WMIPRVSE
+id: 83d3000e-31c6-41ba-9083-fbd484c276fb
+status: experimental
+description: |
+  Detects potential malicious remote DLL using WMIC:
+  - On the source machine, a command shell (cmd.exe or powershell.exe) executing WMIC with parameters 
+    (including "/node:", "call", and "rundll32") indicating remote process creation.
+  - On the target machine, a rundll32.exe process that is spawned by WMIPRVSE.exe.
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a :contentReference[oaicite:0]{index=0}
+author: Momen Mahmoud
+date: 2025-02-12
+tags:
+  - attack.execution
+  - attack.t1047
+  - attack.t1218.011a
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_source:
+    Image|endswith:
+      - 'cmd.exe'
+      - 'powershell.exe'
+    CommandLine|contains|all:
+      - 'wmic'
+      - '/node:'
+      - 'call'
+      - 'rundll32'
+  selection_target:
+    ParentImage|endswith:
+      - 'WMIPRVSE.exe'
+    Image|endswith:
+      - 'rundll32.exe'
+  condition: selection_source or selection_target
+falsepositives:
+  - Legitimate remote administration using WMIC (tuning may be needed based on environment)
+level: high

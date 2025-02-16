@@ -1,0 +1,46 @@
+title: Scheduled Tasks Names Used by APT29 for Persistence
+id: 13028a63-a8c3-49f6-943b-b5c2b197b1ce
+status: experimental
+description: |
+  Detects known APT29-specific scheduled task names used for persistence.
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+author: CISA, Momen Mahmoud (Sigma formatting)
+date: 2025-02-10
+tags:
+  - attack.persistence
+  - attack.t1053.005
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|endswith:
+      - 'schtasks.exe'
+    CommandLine|contains:
+      - 'IISUpdateService'
+      - 'WindowsDefenderService'
+      - 'WindowsDefenderService2'
+      - 'DefenderService'
+      - 'DefenderUPDService'
+      - 'WiMSDFS'
+      - 'StartupAppTaskCkeck'
+      - 'SubmitReporting'
+      - 'Defender Update Service'
+      - 'WindowUpdate'
+      - 'CheckReporting'
+      - 'StartupAppTaskCheck'
+      - 'SpeechModelInstallTask'
+      - 'BfeOnServiceStart'
+      - 'Data Integrity Update'
+      - 'Scheduled AutoCheck'
+      - 'ATPUpd'
+      - 'Service Update'
+      - 'Scheduled Check'
+      - 'Scheduled AutoCheck'
+      - 'Defender'
+      - 'defender'
+  condition: selection
+falsepositives:
+  - Unknown
+level: high

@@ -1,0 +1,40 @@
+title: Invoke-Mimikatz Usage
+id: 0a67a8cc-344c-4d8c-99fb-de72b54bbe21
+related:
+  - id: 189e3b02-82b2-4b90-9662-411eb64486d4
+    type: derived 
+status: experimental
+description: |
+  Detects execution of the Invoke-Mimikatz command in PowerShell. Invoke-Mimikatz is the PowerShell version of the 
+  known Mimikatz tool, which is a credential dumping tool capable of extracting credentials from Windows LSASS memory.
+references:
+  - https://www.elastic.co/guide/en/security/current/potential-invoke-mimikatz-powershell-script.html#:~:text=Mimikatz%20is%20a%20credential%20dumper,Mimikatz%20PowerShell%20script%20and%20alike.
+author: Momen Mahmoud
+date: 2025-02-14
+tags:
+  - attack.credential-access
+  - attack.t1003.001
+logsource:
+  category: ps_script
+  product: windows
+detection:
+  selection_1:
+    ScriptBlockText|contains:
+      - 'Invoke-Mimikatz'
+      - 'sekurlsa::logonpasswords'
+      - 'lsadump::cache'
+      - 'lsadump::secret'
+      - 'lsadump::sam'
+  selection_2:
+    ScriptBlockText|contains|all:
+      - 'DumpCreds'
+      - 'DumpCerts'
+  selection_3:
+    ScriptBlockText|contains|all:
+      - 'crypto::certificates'
+      - 'CERT_SYSTEM_STORE_LOCAL_MACHINE'
+  condition: 1 of selection_*
+falsepositives:
+  - Highly unlikely to have false positives, but might be used for testing
+level: high
+

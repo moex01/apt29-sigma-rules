@@ -1,0 +1,31 @@
+title: Service or Driver Enumeration via PowerShell
+id: bb0023a4-897f-43ba-aa56-e387b105c215
+status: experimental
+description: |
+  Detects PowerShell script execution that enumerates Windows services or drivers.
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+author: CISA, Momen Mahmoud (Sigma Formatting)
+date: 2025-02-16
+tags:
+  - attack.discovery
+  - attack.t1652
+  - attack.t1007
+logsource:
+  category: powershell-classic
+  product: windows
+detection:
+  selection_services:
+    ScriptBlockText|contains|all:
+      - 'Get-WmiObject'
+      - '-Class'
+      - 'Win32_Service'
+  selection_drivers:
+    ScriptBlockText|contains|all:
+      - 'Get-WindowsDriver'
+      - '-Online'
+      - '-All'
+  condition: selection_services or selection_drivers
+falsepositives:
+  - Legitimate use by system administrators.
+level: low

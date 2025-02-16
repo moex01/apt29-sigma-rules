@@ -1,0 +1,36 @@
+title: Cobalt Strike In-Memory .NET Execution
+id: accdd0f6-2300-409b-91cf-56b9262d2c65
+status: experimental
+description: |
+  Detects unusual activity where .NET CLR modules (clr.dll, clrjit.dll, mscoree.dll, or mscorlib.dll)
+  are loaded into abnormal processes. This pattern is commonly observed when using Cobalt Strike's execute-assembly 
+  function to execute .NET binaries in memory.
+references:
+  - https://www.mdsec.us/2020/11/detecting-and-advancing-in-memory-dotnet-tradecraft/
+  - https://detect.fyi/exploring-execute-assembly-a-deep-dive-into-in-memory-threat-execution-60adc61aef8
+author: Momen Mahmoud
+date: 2025-02-14
+tags:
+  - attack.defense-evasion
+  - attack.t1620
+  - attack.t1218.011
+  - attack.s0154
+  - attack.ds0011
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+  # More abnormal processes loading .NET CLR modules could be added
+    Image|endswith:
+      - 'rundll32.exe'
+      - 'regsvr32.exe'
+    ImageLoaded|contains:
+      - 'clr.dll'
+      - 'clrjit.dll'
+      - 'mscoree.dll'
+      - 'mscorlib.dll'
+  condition: selection
+falsepositives:
+  - Unknown
+level: high

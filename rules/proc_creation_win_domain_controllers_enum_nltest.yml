@@ -1,0 +1,26 @@
+title: Domain Controllers Enumeration via nltest
+id: efab9079-e5bf-4ec3-8d6a-2cd98b106707
+status: experimental
+description: |
+  Detects potential DC enumeration by monitoring nltest.exe executions with 
+  parameters like "dclist:" or "dsgetdc:".
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+author: Momen Mahmoud
+date: 2025-02-10
+tags:
+  - attack.discovery
+  - attack.t1018
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|endswith:
+      - 'nltest.exe'
+    CommandLine|re:
+      - '(?i).*?(dclist:|dsgetdc:).*'
+  condition: selection
+falsepositives:
+  - Legitimate use by domain administrators for checks or maintenance.
+level: medium

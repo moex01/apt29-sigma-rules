@@ -1,0 +1,26 @@
+title: Whoami Enumeration for Reconnaissance
+id: 5c6b46e8-9230-4343-a1d2-f120a6261685
+status: experimental
+description: |
+  Detects execution of whoami.exe with parameters (/priv, /groups, /domain, or /all) used to 
+  enumerate privileges, group memberships, and domain name.
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+author: Momen Mahmoud
+date: 2025-02-10
+tags:
+  - attack.discovery
+  - attack.t1033
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    CommandLine|re:
+      - '(?i).*?(\/priv|\/groups|\/domain|\/all).*'
+    Image|endswith:
+      - 'whoami.exe'
+  condition: selection
+falsepositives:
+  - Legitimate use by administrators
+level: low

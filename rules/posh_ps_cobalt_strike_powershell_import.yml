@@ -1,0 +1,24 @@
+title: Cobalt Strike Powershell-Import Usage
+id: 15849e5f-c391-44f1-b3e9-7ffa181a17af
+status: experimental
+description: |
+  Detects a pattern ("DownloadString('http://127.0.0.1:")) that appears when using Cobalt Strike's 
+  powershell-import function for loading PowerShell scripts in memory.
+references:
+  - https://www.crowdstrike.com/en-us/blog/getting-the-bacon-from-cobalt-strike-beacon/
+author: Momen Mahmoud
+date: 2025-02-14
+tags:
+  - attack.execution
+  - attack.t1059.001
+  - attack.s0154
+logsource:
+  category: ps_script
+  product: windows
+detection:
+  selection:
+    ScriptBlockText|re: (?i).*DownloadString\('http:\/\/127\.0\.0\.1:.*\).*
+  condition: selection
+falsepositives:
+  - Unknown
+level: high

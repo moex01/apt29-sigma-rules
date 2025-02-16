@@ -1,0 +1,26 @@
+title: ZIP Compressing a Folder from Temp to Temp
+id: 97e8f235-6d75-428d-923d-2e50de3d3d60
+status: experimental
+description: |
+  Detects the use of Compress-Archive in PowerShell to compress folders from a source
+  path in the Windows temp folder to a destination path also in the Windows temp folder.
+  This behavior has been observed in APT29 operations preparing data for exfiltration.
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+author: CISA, Momen Mahmoud (Sigma formatting)
+date: 2025-02-14
+tags:
+  - attack.collection
+  - attack.t1560.001
+  - attack.t1074.001
+logsource:
+  category: powershell-classic
+  product: windows
+detection:
+detection:
+    selection:
+        ScriptBlockText|re: '.*Compress\-Archive.*Path.*Windows\\[Tt]{1}emp\\[1-9]{1}.*DestinationPath.*Windows\\[Tt]{1}emp\\.*'
+    condition: selection
+falsepositives:
+  - Legitimate tasks that compress files from Windows\temp\
+level: medium

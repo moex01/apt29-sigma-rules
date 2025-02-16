@@ -1,0 +1,29 @@
+title: LSA Registry Modifications
+id: 96dd747d-e97c-4c1a-a5d0-7d28a5f9ae1b
+status: experimental
+description: |
+  Detects modifications to the LSA registry keys: DisableRestrictedAdmin and NoLMHash. 
+  Attackers may change NoLMHash to permit the storage of LM hashes in memory, as LM hashes are
+  weak and can be easily cracked. Also, they can set DisableRestrictedAdmin to 1 to disable Restricted Admin mode, 
+  resulting in credentials being transmitted during remote sessions, which can be used for lateral movement (e.g., PtH).
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+author: Momen Mahmoud
+date: 2025-02-10
+tags:
+  - attack.defense-evasion  
+  - attack.t1112
+logsource:
+  category: registry_set
+  product: windows
+detection:
+  selection:
+    Image|endswith:
+      - 'reg.exe'
+    TargetObject|endswith:
+      - '\NoLMHash'
+      - '\DisableRestrictedAdmin'
+  condition: selection
+falsepositives:
+  - Unknown
+level: high

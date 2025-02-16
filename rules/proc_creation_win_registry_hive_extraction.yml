@@ -1,0 +1,29 @@
+title: Registry Hive Extraction
+id: b9551bc3-8e5a-402b-b07f-7368d972f086
+status: experimental
+description: |
+  Detects potential registry hive exfiltration by flagging reg.exe executions 
+  that save sensitive hives (HKLM\SAM, HKLM\SECURITY, or HKLM\SYSTEM) to a 
+  file (e.g., sy.sa, sam.sa, or se.sa), preparing them for exfiltration.
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+author: CISA, Momen Mahmoud (Sigma formatting)
+date: 2024-02-14
+tags:
+  - attack.credential-access
+  - attack.t1003.002
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_base:
+      Image|endswith:
+        - 'reg.exe'
+      CommandLine|contains: 'save'
+      CommandLine|re: '(?i).*HKLM\\(SYSTEM|SECURITY|SAM).*'
+  selection_file:
+    CommandLine|re: '(?i).*?(sam|se|sy).*?\.sa.*'
+  condition: all of selection_*
+falsepositives:
+  - Dumping hives for backup or forensic investigation
+level: high

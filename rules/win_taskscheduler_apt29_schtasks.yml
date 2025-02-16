@@ -1,0 +1,36 @@
+title: Scheduled Tasks Names Used by APT29 for Persistence
+id: 9ff9a391-d772-4773-ba5d-f5b3faab226f
+status: experimental
+description: |
+  Detects known APT29-specific scheduled task names created for persistence.
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+author: Momen Mahmoud
+date: 2025-02-10
+tags:
+  - attack.persistence
+  - attack.t1053.005
+logsource:
+  category: taskscheduler
+  product: windows
+detection:
+  selection:
+    EventID: 4698
+    TaskName|endswith:
+      - '\BfeOnServiceStart'
+      - '\IISUpdateService'
+      - '\ATPUpd'
+      - '\Scheduled AutoCheck'
+      - '\CheckReporting'
+      - '\SubmitReporting'
+      - '\SpeechModelInstallTask'
+      - '\StartupAppTaskCheck'
+      - '\Defender Update Service'
+      - '\Scheduled Check'
+      - '\Data Integrity Update'
+      - '\WiMSDFS'
+      - '\DefenderService'
+  condition: selection
+falsepositives:
+  - No known legitimate use of these task names
+level: high

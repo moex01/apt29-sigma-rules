@@ -1,0 +1,27 @@
+title: Base64 Encoded PowerShell Execution 
+id: a558c283-86d4-4ccc-849e-2096099001ec
+status: experimental
+description: |
+  Detects PowerShell (or pwsh) processes using the -EncodedCommand (or -enc/-e) flag to execute Base64-encoded commands, which may indicate malicious activity.
+references:
+  - https://kqlquery.com/posts/hunting-encoded-powershell/
+  - https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules/blob/main/Threat%20Hunting%20Cases/Suspicious%20Encoded%20Powershell.md
+author: Momen Mahmoud
+date: 2025-02-12
+tags:
+  - attack.execution
+  - attack.t1059.001
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|endswith:
+      - '\powershell.exe'
+      - '\pwsh.exe'
+    CommandLine|re:
+      - '(?i)(-EncodedCommand|-enc|-e)\s+[A-Za-z0-9+/]+={0,2}'
+  condition: selection
+falsepositives:
+  - Legitimate administrative scripts that use encoded commands
+level: medium
