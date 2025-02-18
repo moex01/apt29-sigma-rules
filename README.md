@@ -13,7 +13,8 @@ Contributions to these rules are welcome. When submitting a pull request, please
 - Your changes follow the Sigma rule format and naming conventions.
 - You include a detailed description of the changes made.
 - You test your modifications in a controlled environment before submitting them.
-Feel free to open an issue if you have suggestions or encounter any problems.
+
+_Feel free to open an issue if you have suggestions or encounter any problems._
 
 # References
 - [CISA Report](https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a)
