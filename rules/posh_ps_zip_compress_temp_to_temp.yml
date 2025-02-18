@@ -14,7 +14,7 @@ tags:
   - attack.t1560.001
   - attack.t1074.001
 logsource:
-  category: powershell-classic
+  category: ps_script
   product: windows
 detection:
 detection:

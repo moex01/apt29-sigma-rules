@@ -12,7 +12,7 @@ tags:
   - attack.t1652
   - attack.t1007
 logsource:
-  category: powershell-classic
+  category: ps_script
   product: windows
 detection:
   selection_services:
